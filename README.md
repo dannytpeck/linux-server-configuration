@@ -6,22 +6,15 @@ IP Address: 52.26.18.162
 SSH Port: 2200
 
 ### The complete URL to your hosted web application.
-TBA
+http://ec2-52-26-18-162.us-west-2.compute.amazonaws.com/
 
 ### A summary of software you installed and configuration changes made.
-Installed Software
-
-#### Configuration Steps
 ##### Update all currently installed packages.
 ```sudo apt-get update```
 
 ```sudo apt-get upgrade```
 
-##### Create a New User Named "grader"
-
-
-
-##### Create New User and SSH Key Pair
+##### Create New User "grader" and SSH Key Pair
 On local machine, run ```ssh-keygen``` and name the pair "udacity_grader"
 Log in via Lightsail's "Connect using SSH" button
 
