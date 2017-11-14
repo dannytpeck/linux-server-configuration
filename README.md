@@ -3,8 +3,9 @@
 You will take a baseline installation of a Linux server and prepare it to host your web applications. You will secure your server from a number of attack vectors, install and configure a database server, and deploy one of your existing web applications onto it.
 
 ### The IP address and SSH port so your server can be accessed by the reviewer.
-IP Address: 52.26.18.162
-SSH Port: 2200
+IP Address: ```52.26.18.162```
+
+SSH Port: ```2200```
 
 ### The complete URL to your hosted web application.
 http://ec2-52-26-18-162.us-west-2.compute.amazonaws.com/
