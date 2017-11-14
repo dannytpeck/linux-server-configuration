@@ -79,60 +79,71 @@ sudo ufw status
 ```sudo dpkg-reconfigure tzdata```
 Select: None of the Above -> UTC
 
-##### Install and configure Apache
-```sudo apt-get install apache2```
-```sudo apt-get install python-setuptools libapache2-mod-wsgi```
-```sudo nano /etc/apache2/sites-enabled/000-default.conf```
-On the line before "</VirtualHost>", add "WSGIScriptAlias / /var/www/html/myapp.wsgi"
-```sudo apache2ctl restart```
-```sudo service apache2 restart```
-
 ##### Install Git
 ```sudo apt-get install git```
 ```sudo apt-get install libapache2-mod-wsgi python-dev```
 
+Move to /srv and clone the repo as the "www-data" user.
 ```
-cd /var/www
-sudo mkdir Catalog
-cd Catalog
-sudo mkdir catalog
-cd catalog
-sudo mkdir static templates
-```
-
-```
-sudo apt-get install python-pip
-sudo pip install virtualenv
-sudo virtualenv venv
+cd /srv
+sudo mkdir catalog_app
+sudo chown www-data:www-data catalog_app
+cd catalog_app
+sudo -u www-data git clone https://github.com/dannytpeck/item-catalog.git catalog
 ```
 
-```sudo nano /etc/apache2/sites-available/catalog.conf```
+##### Install and configure Apache
+Install apache and libapache2-mod-wsgi
+```sudo apt-get install apache2```
+```sudo apt-get libapache2-mod-wsgi```
 
+Create catalog.wsgi
+```sudo nano /var/www/html/catalog.wsgi```
+
+Paste into catalog.wsgi
 ```
-<VirtualHost *:80>
-    ServerName 52.26.18.162
-    ServerAdmin admin@52.26.18.162
-    WSGIScriptAlias / /var/www/Catalog/catalog.wsgi
-    <Directory /var/www/Catalog/catalog/>
-        Order allow,deny
-        Allow from all
-    </Directory>
-    Alias /static /var/www/Catalog/catalog/static
-    <Directory /var/www/Catalog/catalog/static/>
-        Order allow,deny
-        Allow from all
-    </Directory>
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    LogLevel warn
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0, '/srv/item_catalog')
+
+from catalog import app as application
+
+application.secret_key = '7)o!a(k)wmgv)bxd)x44cvm0v=pc2&pfdwu45&3lrgp!p^+'
 ```
 
-```sudo a2ensite catalog.wsgi```
+Restart apache
+```sudo apache2ctl restart```
+```sudo service apache2 restart```
+
+###### Install dependencies for Python App
+```
+sudo apt-get install python-psycopg2 python-flask
+sudo apt-get install python-sqlalchemy python-pip
+sudo pip install oauth2client
+sudo pip install requests
+sudo pip install httplib2
+```
 
 
+##### Install PostgreSQL
+Install PostgreSQL
+```sudo apt-get install postgresql postgresql-contrib```
 
+Create a PostgreSQL user named catalog:
+```sudo -u postgres createuser -P catalog```
 
+Create an empty "catalog" database:
+```sudo -u postgres createdb -O catalog catalog```
+
+##### Serve App with Apache
+Add catalog.wsgi to default config file
+```sudo nano /etc/apache2/sites-enabled/000-default.conf```
+On the line before "</VirtualHost>", add "WSGIScriptAlias / /var/www/html/catalog.wsgi"
+
+Reload apache service
+```sudo service apache2 reload```
 
 ### A list of any third-party resources you made use of to complete this project.
 [Udacity Lightsail Instructions](https://classroom.udacity.com/nanodegrees/nd004/parts/ab002e9a-b26c-43a4-8460-dc4c4b11c379/modules/357367901175462/lessons/3573679011239847/concepts/c4cbd3f2-9adb-45d4-8eaf-b5fc89cc606e)
