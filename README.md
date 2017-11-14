@@ -11,8 +11,46 @@ TBA
 ### A summary of software you installed and configuration changes made.
 Installed Software
 
+#### Configuration Steps
+##### Update all currently installed packages.
+```sudo apt-get update```
 
-Configuration Steps
+```sudo apt-get upgrade```
+
+##### Create a New User Named "grader"
+
+
+
+##### Create New User and SSH Key Pair
+On local machine, run ```ssh-keygen``` and name the pair "udacity_grader"
+Log in via Lightsail's "Connect using SSH" button
+
+```
+sudo adduser grader
+sudo su - grader
+sudo mkdir .ssh
+sudo nano .ssh/authorized_keys
+```
+
+Copy contents of "udacity_grader.pub" and paste them into "authorized_keys"
+
+```
+chmod 700 .ssh
+chmod 644 .ssh/authorized_keys
+```
+
+##### Change SSH Port and Configure SSH
+```nano /etc/ssh/sshd_config```
+
+Change "Port 22" to "Port 2200"
+Change "PermitRootLogin prohibit-password" to "PermitRootLogin no"
+Add "UseDNS no" and "AllowUsers grader" to the end of the file
+
+Restart the SSH Service:
+```sudo service ssh restart```
+
+Connect via SSH from your Local Machine:
+```ssh grader@52.26.18.162 -i ~/.ssh/udacity_grader -p 2200```
 
 
 ### A list of any third-party resources you made use of to complete this project.
