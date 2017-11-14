@@ -35,18 +35,26 @@ chmod 644 .ssh/authorized_keys
 ```nano /etc/ssh/sshd_config```
 
 Change "Port 22" to "Port 2200"
+
 Change "PermitRootLogin prohibit-password" to "PermitRootLogin no"
+
 Add "UseDNS no" and "AllowUsers grader" to the end of the file
 
-Restart the SSH Service:
-```sudo service ssh restart```
+Restart the SSH Service
+```
+sudo service ssh restart
+```
 
-Connect via SSH from your Local Machine:
-```ssh grader@52.26.18.162 -i ~/.ssh/udacity_grader -p 2200```
+Connect via SSH from your Local Machine
+```
+ssh grader@52.26.18.162 -i ~/.ssh/udacity_grader -p 2200
+```
 
 ##### Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
 Check UFW status
-```sudo ufw status```
+```
+sudo ufw status
+```
 
 By default, deny all incoming and allow all outgoing
 ```
@@ -73,15 +81,21 @@ Select: None of the Above -> UTC
 
 ##### Install Git
 Install git
-```sudo apt-get install git```
+```
+sudo apt-get install git
+```
 
 ##### Install and configure Apache
 Install apache and libapache2-mod-wsgi
-```sudo apt-get install apache2```
-```sudo apt-get libapache2-mod-wsgi```
+```
+sudo apt-get install apache2
+sudo apt-get libapache2-mod-wsgi
+```
 
 Create catalog.wsgi
-```sudo nano /var/www/html/catalog.wsgi```
+```
+sudo nano /var/www/html/catalog.wsgi
+```
 
 Paste the following into catalog.wsgi
 ```
@@ -97,18 +111,26 @@ application.secret_key = '7)o!a(k)wmgv)bxd)x44cvm0v=pc2&pfdwu45&3lrgp!p^+'
 ```
 
 Restart apache
-```sudo apache2ctl restart```
-```sudo service apache2 restart```
+```
+sudo apache2ctl restart
+sudo service apache2 restart
+```
 
 ##### Install PostgreSQL
 Install PostgreSQL
-```sudo apt-get install postgresql postgresql-contrib```
+```
+sudo apt-get install postgresql postgresql-contrib
+```
 
 Create a PostgreSQL user named catalog:
-```sudo -u postgres createuser -P catalog```
+```
+sudo -u postgres createuser -P catalog
+```
 
 Create an empty "catalog" database:
-```sudo -u postgres createdb -O catalog catalog```
+```
+sudo -u postgres createdb -O catalog catalog
+```
 
 ##### Deploy the Item Catalog project
 Move to /srv and clone the repo as the "www-data" user.
@@ -127,7 +149,9 @@ sudo mv application.py __init__.py
 ```
 
 Create DB schema
-```sudo python database_setup.py```
+```
+sudo python database_setup.py
+```
 
 ###### Install dependencies for Python App
 ```
@@ -141,11 +165,16 @@ sudo pip install httplib2
 
 ##### Serve App with Apache
 Add catalog.wsgi to default config file
-```sudo nano /etc/apache2/sites-enabled/000-default.conf```
+```
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+```
+
 On the line before "</VirtualHost>", add "WSGIScriptAlias / /var/www/html/catalog.wsgi"
 
 Reload apache service
-```sudo service apache2 reload```
+```
+sudo service apache2 reload
+```
 
 ### A list of any third-party resources you made use of to complete this project.
 [Udacity Lightsail Instructions](https://classroom.udacity.com/nanodegrees/nd004/parts/ab002e9a-b26c-43a4-8460-dc4c4b11c379/modules/357367901175462/lessons/3573679011239847/concepts/c4cbd3f2-9adb-45d4-8eaf-b5fc89cc606e)
