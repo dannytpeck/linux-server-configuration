@@ -75,15 +75,6 @@ Select: None of the Above -> UTC
 Install git
 ```sudo apt-get install git```
 
-Move to /srv and clone the repo as the "www-data" user.
-```
-cd /srv
-sudo mkdir catalog_app
-sudo chown www-data:www-data catalog_app
-cd catalog_app
-sudo -u www-data git clone https://github.com/dannytpeck/item-catalog.git catalog
-```
-
 ##### Install and configure Apache
 Install apache and libapache2-mod-wsgi
 ```sudo apt-get install apache2```
@@ -109,15 +100,6 @@ Restart apache
 ```sudo apache2ctl restart```
 ```sudo service apache2 restart```
 
-###### Install dependencies for Python App
-```
-sudo apt-get install python-psycopg2 python-flask
-sudo apt-get install python-sqlalchemy python-pip
-sudo pip install oauth2client
-sudo pip install requests
-sudo pip install httplib2
-```
-
 ##### Install PostgreSQL
 Install PostgreSQL
 ```sudo apt-get install postgresql postgresql-contrib```
@@ -127,6 +109,35 @@ Create a PostgreSQL user named catalog:
 
 Create an empty "catalog" database:
 ```sudo -u postgres createdb -O catalog catalog```
+
+##### Deploy the Item Catalog project
+Move to /srv and clone the repo as the "www-data" user.
+```
+cd /srv
+sudo mkdir catalog_app
+sudo chown www-data:www-data catalog_app
+cd catalog_app
+sudo -u www-data git clone https://github.com/dannytpeck/item-catalog.git catalog
+```
+
+Go into catalog dir and rename ```application.py``` to ```__init__```
+```
+cd catalog
+sudo mv application.py __init__.py
+```
+
+Create DB schema
+```sudo python database_setup.py```
+
+###### Install dependencies for Python App
+```
+sudo apt-get install python-psycopg2 python-flask
+sudo apt-get install python-sqlalchemy python-pip
+sudo pip install oauth2client
+sudo pip install requests
+sudo pip install httplib2
+```
+
 
 ##### Serve App with Apache
 Add catalog.wsgi to default config file
