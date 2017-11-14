@@ -16,8 +16,8 @@ http://ec2-52-26-18-162.us-west-2.compute.amazonaws.com/
 
 ##### Create New User "grader" and SSH Key Pair
 On local machine, run ```ssh-keygen``` and name the pair "udacity_grader"
-Log in via Lightsail's "Connect using SSH" button
 
+Log in via Lightsail's "Connect using SSH" button
 ```
 sudo adduser grader
 sudo su - grader
@@ -26,7 +26,6 @@ sudo nano .ssh/authorized_keys
 ```
 
 Copy contents of "udacity_grader.pub" and paste them into "authorized_keys"
-
 ```
 chmod 700 .ssh
 chmod 644 .ssh/authorized_keys
@@ -73,8 +72,8 @@ sudo ufw status
 Select: None of the Above -> UTC
 
 ##### Install Git
+Install git
 ```sudo apt-get install git```
-```sudo apt-get install libapache2-mod-wsgi python-dev```
 
 Move to /srv and clone the repo as the "www-data" user.
 ```
@@ -93,7 +92,7 @@ Install apache and libapache2-mod-wsgi
 Create catalog.wsgi
 ```sudo nano /var/www/html/catalog.wsgi```
 
-Paste into catalog.wsgi
+Paste the following into catalog.wsgi
 ```
 #!/usr/bin/python
 import sys
@@ -118,7 +117,6 @@ sudo pip install oauth2client
 sudo pip install requests
 sudo pip install httplib2
 ```
-
 
 ##### Install PostgreSQL
 Install PostgreSQL
