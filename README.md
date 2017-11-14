@@ -9,12 +9,12 @@ SSH Port: 2200
 http://ec2-52-26-18-162.us-west-2.compute.amazonaws.com/
 
 ### A summary of software you installed and configuration changes made.
-##### Update all currently installed packages.
+#### Update all currently installed packages.
 ```sudo apt-get update```
 
 ```sudo apt-get upgrade```
 
-##### Create New User "grader" and SSH Key Pair
+#### Create New User "grader" and SSH Key Pair
 On local machine, run ```ssh-keygen``` and name the pair "udacity_grader"
 
 Log in via Lightsail's "Connect using SSH" button
@@ -31,7 +31,7 @@ chmod 700 .ssh
 chmod 644 .ssh/authorized_keys
 ```
 
-##### Change SSH Port and Configure SSH
+#### Change SSH Port and Configure SSH
 ```nano /etc/ssh/sshd_config```
 
 Change "Port 22" to "Port 2200"
@@ -50,7 +50,7 @@ Connect via SSH from your Local Machine
 ssh grader@52.26.18.162 -i ~/.ssh/udacity_grader -p 2200
 ```
 
-##### Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+#### Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
 Check UFW status
 ```
 sudo ufw status
@@ -75,17 +75,17 @@ sudo ufw enable
 sudo ufw status
 ```
 
-##### Configure the local timezone to UTC
+#### Configure the local timezone to UTC
 ```sudo dpkg-reconfigure tzdata```
 Select: None of the Above -> UTC
 
-##### Install Git
+#### Install Git
 Install git
 ```
 sudo apt-get install git
 ```
 
-##### Install and configure Apache
+#### Install and configure Apache
 Install apache and libapache2-mod-wsgi
 ```
 sudo apt-get install apache2
@@ -116,7 +116,7 @@ sudo apache2ctl restart
 sudo service apache2 restart
 ```
 
-##### Install PostgreSQL
+#### Install PostgreSQL
 Install PostgreSQL
 ```
 sudo apt-get install postgresql postgresql-contrib
@@ -132,7 +132,7 @@ Create an empty "catalog" database:
 sudo -u postgres createdb -O catalog catalog
 ```
 
-##### Deploy the Item Catalog project
+#### Deploy the Item Catalog project
 Move to /srv and clone the repo as the "www-data" user.
 ```
 cd /srv
@@ -153,7 +153,7 @@ Create DB schema
 sudo python database_setup.py
 ```
 
-###### Install dependencies for Python App
+#### Install dependencies for Python App
 ```
 sudo apt-get install python-psycopg2 python-flask
 sudo apt-get install python-sqlalchemy python-pip
@@ -163,7 +163,7 @@ sudo pip install httplib2
 ```
 
 
-##### Serve App with Apache
+#### Serve App with Apache
 Add catalog.wsgi to default config file
 ```
 sudo nano /etc/apache2/sites-enabled/000-default.conf
@@ -178,5 +178,7 @@ sudo service apache2 reload
 
 ### A list of any third-party resources you made use of to complete this project.
 [Udacity Lightsail Instructions](https://classroom.udacity.com/nanodegrees/nd004/parts/ab002e9a-b26c-43a4-8460-dc4c4b11c379/modules/357367901175462/lessons/3573679011239847/concepts/c4cbd3f2-9adb-45d4-8eaf-b5fc89cc606e)
+
 [Ubuntu Docs - UFW](https://help.ubuntu.com/community/UFW)
+
 [Elnobun's Server Configuration](https://github.com/elnobun/Linux-Server-Configuration)
